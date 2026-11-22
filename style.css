@@ -1897,3 +1897,29 @@ html body .hero h1 span { display: inline-block; padding-right: .09em; }
 .bow-help-done { display: block; margin: 0 auto; border: 1.5px solid #4a3227; border-radius: 999px; padding: 12px 30px; font-size: 17px; font-weight: 800; color: #4a3227; background: #f8d5e1; cursor: pointer; }
 .bow-help-done:hover { background: #f3bfd1; }
 @media(max-width:480px) { .bow-help-dialog { padding: 20px 16px; border-radius: 20px; } .bow-help-step { padding: 12px; } }
+
+/* Sticker typography: clear letter spacing and no overlap in all languages. */
+html body .hero-art .art-card {
+  gap: 11px !important;
+}
+html body .hero-art .art-card small {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  max-width: none !important;
+  font-family: 'Fredoka', sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.025em !important;
+  font-kerning: normal !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  transform: none !important;
+}
+@media (max-width: 720px) {
+  html body .hero-art .art-card small {
+    font-size: 20px !important;
+    letter-spacing: 0.02em !important;
+  }
+}

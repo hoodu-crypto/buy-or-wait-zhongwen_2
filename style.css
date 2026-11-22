@@ -1692,3 +1692,71 @@ html[lang="zh-CN"] .hero h1,
 html[lang="zh-CN"] .hero h1 * {
   font-family: "Fredoka", sans-serif !important;
 }
+
+
+/* Monthly choices calendar — phase 1 */
+.bow-calendar-section{padding:42px 6%;background:#fff7e8}
+.bow-calendar-wrap{max-width:780px;margin:auto;background:#fffefa;border:1.5px solid #e6d8cd;border-radius:30px;padding:28px;box-shadow:4px 6px 0 #755a4710}
+.bow-calendar-head,.bow-month-nav,.bow-rewards-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bow-calendar-kicker{font:600 12px 'DM Sans',sans-serif;color:#8a7770;letter-spacing:.09em}
+.bow-calendar-head h2{font-size:clamp(23px,4vw,35px);margin:8px 0 18px}
+.bow-calendar-head-icon{font-size:31px;color:#c1859e}
+.bow-month-nav{margin:5px 0 22px;font-size:21px}
+.bow-month-nav button{border:1px solid #dccdc3;background:white;border-radius:99px;width:52px;height:42px;font-size:30px;color:#694e43}
+.bow-month-nav button:disabled{opacity:.35;cursor:default}
+.bow-calendar-summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:25px}
+.bow-summary-tile{border-radius:20px;padding:19px;display:flex;flex-direction:column;gap:7px}
+.bow-summary-tile.pink{background:#f9e0e9;color:#88566d}
+.bow-summary-tile.yellow{background:#fff0d1;color:#90683d}
+.bow-summary-tile small{font-size:13px}
+.bow-summary-tile strong{font-size:27px}
+.bow-calendar-weekdays,.bow-calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.bow-calendar-weekdays{text-align:center;margin-bottom:8px;color:#816c60;font-size:13px}
+.bow-calendar-day,.bow-calendar-empty{min-width:0;aspect-ratio:0.9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.bow-calendar-day{border:1px solid #e5e2df;border-radius:17px;background:#f4f3f2;color:#3d3430;font-size:17px}
+.bow-calendar-day.has-choice{background:#fff0d1;border-color:#f2e0c2}
+.bow-calendar-day.selected{border:3px solid #c5839d;background:#f9e0e9}
+.bow-calendar-day small{color:#b47a95;font-size:11px}
+.bow-day-detail{background:#f5f3f1;border-radius:17px;padding:17px;margin:18px 0 22px;color:#745d52;font-size:13px;line-height:1.5}
+.bow-rewards-head{margin-bottom:11px;font-size:16px}
+.bow-rewards-head span{color:#927f73;font-size:13px}
+.bow-reward-track{height:12px;border-radius:30px;background:#eee9e7;overflow:hidden;margin-bottom:17px}
+#bowRewardFill{height:100%;background:#d18da8;border-radius:30px;transition:width .2s}
+.bow-reward-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bow-reward-card{border:1px solid #ebd7d9;background:#fff4f5;border-radius:20px;padding:23px 10px;display:flex;align-items:center;flex-direction:column;gap:9px}
+.bow-reward-card:nth-child(2){background:#fff5df;border-color:#f1e1c4}
+.bow-reward-card.achieved{border:2px solid #c68da3}
+.bow-reward-lock{font-size:27px;color:#bb8098}
+.bow-reward-card small{color:#8c736b;font-size:12px}
+.bow-calendar-help{font-size:12px;line-height:1.7;color:#927e72;margin:18px 0 0}
+@media(max-width:480px){.bow-calendar-section{padding:24px 3%}.bow-calendar-wrap{padding:17px;border-radius:22px}.bow-calendar-weekdays,.bow-calendar-days{gap:4px}.bow-calendar-day{border-radius:11px;font-size:14px}.bow-calendar-day small{font-size:9px}.bow-summary-tile{padding:13px}.bow-summary-tile strong{font-size:21px}}
+
+/* Gift collection: unlocked images are fetched only after opening a gift. */
+
+.bow-gift-open{border:1.5px solid #9c7566;border-radius:999px;background:#fffdf5;color:#5d4035;padding:9px 15px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.bow-gift-open:hover{background:#fce6ef}
+.bow-gift-collection{border-top:1px solid #eadbd2;margin-top:26px;padding-top:24px}
+.bow-gift-collection-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}
+.bow-gift-collection-head h3{margin:7px 0 0;font-size:23px;color:#543b32}
+.bow-gift-total{border:1px solid #e4c9d3;border-radius:999px;padding:7px 12px;background:#fff4f7;font-weight:700;color:#9b6b80;white-space:nowrap}
+.bow-gift-collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.bow-gift-tile{min-height:135px;border:1px solid #e7d9d4;border-radius:18px;padding:15px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;background:#f5f2ef}
+.bow-gift-tile:nth-child(4n+1),.bow-gift-tile:nth-child(4n+2){background:#fff1f5}
+.bow-gift-tile.is-unlocked{border-color:#d5a3b6;background:#fae5ed}
+.bow-gift-tile strong{font-size:12px;color:#65493e}
+.bow-gift-tile small{font-size:11px;color:#927e72}
+.bow-gift-viewer[hidden]{display:none!important}
+.bow-gift-viewer{position:fixed;inset:0;z-index:99999;background:#2c201cbf;display:flex;align-items:center;justify-content:center;padding:18px}
+.bow-gift-viewer-panel{position:relative;max-width:580px;width:100%;max-height:90vh;overflow:auto;background:#fffaf3;border-radius:26px;padding:28px;text-align:center;box-shadow:0 20px 60px #0003}
+.bow-gift-viewer-panel h3{margin:10px 35px 22px;color:#5e4137}
+.bow-gift-close{position:absolute;right:16px;top:12px;border:0;background:transparent;font-size:32px;cursor:pointer;color:#65493e}
+#bowGiftViewerImage{display:block;max-width:100%;max-height:65vh;object-fit:contain;margin:auto;border-radius:12px}
+#bowGiftViewerImage[hidden]{display:none}
+#bowGiftViewerStatus{font-size:13px;color:#8c736b}
+@media(max-width:540px){.bow-gift-collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bow-gift-tile{min-height:125px}.bow-gift-collection-head h3{font-size:19px}}
+
+/* Unlocked gifts: preserve real PNG alpha and display the item itself. */
+.bow-gift-preview{width:100%;height:105px;object-fit:contain;background:transparent;border:0;flex-shrink:0}
+.bow-gift-preview[hidden]{display:none!important}
+.bow-gift-tile.is-unlocked{min-height:175px}
+#bowGiftViewerImage{background:transparent}

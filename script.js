@@ -4551,7 +4551,22 @@ if (document.readyState === "loading") {
   const $c = id => document.getElementById(id);
   const seoulDate = (value = new Date()) => new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(value);
   const today = () => seoulDate();
-  const monthKey = () => shownMonth || today().slice(0,7);
+  const FIRST_REWARD_MONTH = '2026-11';
+  const LAST_REWARD_MONTH = '2027-10';
+  const rewardMonths = Array.from({length:12}, (_,i) => {
+    const date = new Date(Date.UTC(2026, 10+i, 1));
+    return date.toISOString().slice(0,7);
+  });
+  // Reuse the 24 existing private PNGs without moving or reuploading them.
+  // 2026/01 -> Nov 2026, 2026/02 -> Dec 2026, 2026/03..12 -> Jan..Oct 2027.
+  const giftStoragePath = (key) => {
+    const [ym, milestone] = key.split('/');
+    const index = rewardMonths.indexOf(ym);
+    if (index < 0 || !['10','20'].includes(milestone)) return null;
+    return '2026/' + String(index + 1).padStart(2,'0') + '/' + milestone + '.png';
+  };
+  const latestAvailableMonth = () => today().slice(0,7) < LAST_REWARD_MONTH ? today().slice(0,7) : LAST_REWARD_MONTH;
+  const monthKey = () => shownMonth || (today().slice(0,7) < FIRST_REWARD_MONTH ? FIRST_REWARD_MONTH : latestAvailableMonth());
   const calendarMonth = () => new Date(monthKey() + '-01T12:00:00Z');
   const monthRecords = () => records.filter(r => r.choice_date.slice(0,7) === monthKey());
   async function load() {
@@ -4565,7 +4580,9 @@ if (document.readyState === "loading") {
   }
   function render() {
     if (!$c('bowCalendarDays')) return;
-    if (!shownMonth) shownMonth=today().slice(0,7);
+    if (!shownMonth) shownMonth=monthKey();
+    if (shownMonth < FIRST_REWARD_MONTH) shownMonth = FIRST_REWARD_MONTH;
+    if (shownMonth > latestAvailableMonth()) shownMonth = latestAvailableMonth();
     const words=lang();
     const month=calendarMonth();
     const y=month.getUTCFullYear(),m=month.getUTCMonth();
@@ -4599,16 +4616,15 @@ if (document.readyState === "loading") {
     $c('bowRewardGrid').innerHTML=[10,20].map(n=>'<div class="bow-reward-card '+(count>=n?'achieved':'')+'"><strong>'+n+' '+words.times+'</strong><small>'+(count>=n?words.unlocked:words.locked)+'</small>'+(count>=n?'<button type="button" class="bow-gift-open" data-bow-gift="'+monthKey()+'/'+n+'">'+(currentLang==='zh'?'打开礼物':currentLang==='en'?'Open gift':'선물 열기')+'</button>':'')+'</div>').join('');
     renderCollection();
     $c('bowCalendarHelp').textContent=loadError?words.setup:words.help;
-    $c('bowPrevMonth').disabled=monthKey()<='2026-01';
-    $c('bowNextMonth').disabled=monthKey()>=today().slice(0,7);
+    $c('bowPrevMonth').disabled=monthKey()<=FIRST_REWARD_MONTH;
+    $c('bowNextMonth').disabled=monthKey()>=latestAvailableMonth();
   }
   function renderCollection() {
     const grid=$c('bowGiftCollectionGrid');
     if(!grid)return;
     const title=$c('bowGiftCollectionTitle');
     title.textContent=currentLang==='zh'?'我的礼物收藏册':currentLang==='en'?'My gift collection':'나의 선물 컬렉션';
-    const total=Array.from({length:12},(_,i)=>{
-      const key='2026-'+String(i+1).padStart(2,'0');
+    const total=rewardMonths.map(key=>{
       return {key,count:records.filter(r=>r.choice_date.slice(0,7)===key).length};
     });
     const unlocked=total.reduce((sum,x)=>sum+(x.count>=10?1:0)+(x.count>=20?1:0),0);
@@ -4620,7 +4636,7 @@ if (document.readyState === "loading") {
     grid.innerHTML=total.flatMap(x=>[10,20].map(n=>{
       const active=x.count>=n;
       const key=x.key+'/'+n;
-      const caption=Number(x.key.slice(5))+(currentLang==='en'?' / ':'月 · ')+n+(currentLang==='zh'?'次':currentLang==='en'?' times':'번');
+      const caption=(currentLang==='zh' ? x.key.slice(0,4)+'年'+Number(x.key.slice(5))+'月' : currentLang==='en' ? x.key : x.key.slice(0,4)+'년 '+Number(x.key.slice(5))+'월')+' · '+n+(currentLang==='zh'?'次':currentLang==='en'?' times':'번');
       if(active)activeKeys.push(key);
       return '<div class="bow-gift-tile '+(active?'is-unlocked':'is-locked')+'">'+(active?'<img class="bow-gift-preview" data-gift-preview="'+key+'" alt="" hidden>':'')+'<strong>'+caption+'</strong>'+(active?'<button type="button" class="bow-gift-open" data-bow-gift="'+key+'">'+openLabel+'</button>':'<small>'+lockedLabel+'</small>')+'</div>';
     })).join('');
@@ -4634,7 +4650,8 @@ if (document.readyState === "loading") {
       let pending;
       if(existing && existing.expires>Date.now())pending=existing.promise;
       else {
-        const path=key.replace('-','/')+'.png';
+        const path=giftStoragePath(key);
+        if (!path) return;
         pending=supabaseClient.storage.from('bow-secret-rewards').createSignedUrl(path,60).then(({data,error})=>{
           if(error)throw error;
           return data?.signedUrl || null;
@@ -4657,7 +4674,7 @@ if (document.readyState === "loading") {
     if(image){image.hidden=true;image.removeAttribute('src');}
   }
   async function openGift(key) {
-    if(!/^2026-(0[1-9]|1[0-2])\/(10|20)$/.test(key))return;
+    if(!/^(2026-(11|12)|2027-(0[1-9]|10))\/(10|20)$/.test(key))return;
     const [ym,thresholdText]=key.split('/');
     const threshold=Number(thresholdText);
     if(records.filter(r=>r.choice_date.slice(0,7)===ym).length<threshold)return;
@@ -4670,7 +4687,8 @@ if (document.readyState === "loading") {
     status.textContent=currentLang==='zh'?'正在打开礼物…':currentLang==='en'?'Opening your gift…':'선물을 여는 중…';
     try {
       if(!supabaseClient||!currentUser)throw new Error('Please sign in first.');
-      const path=ym.replace('-','/')+'/'+threshold+'.png';
+      const path=giftStoragePath(key);
+      if (!path) throw new Error('Invalid reward month');
       // The private bucket SELECT policy checks the user's monthly count on the server.
       const {data,error}=await supabaseClient.storage.from('bow-secret-rewards').createSignedUrl(path,60);
       if(error)throw error;

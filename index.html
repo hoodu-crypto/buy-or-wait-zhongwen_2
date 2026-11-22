@@ -62,7 +62,7 @@
         HOME
       </a>
 
-      <a href="#how" data-i18n="navHow">
+      <a href="#how" data-i18n="navHow" data-open-help="true">
         HOW IT WORKS
       </a>
     </nav>
@@ -147,7 +147,7 @@
       HOME
     </a>
 
-    <a href="#how" data-i18n="navHow">
+    <a href="#how" data-i18n="navHow" data-open-help="true">
       HOW IT WORKS
     </a>
   </nav>
@@ -240,8 +240,8 @@
       <div class="section-head">
 
         <h2 data-i18n-html="stepsTitle">
-          Love it now.
-          <span>Decide later.</span>
+          <span class="steps-title-small">지금은 좋아해도,</span>
+          <span class="steps-title-large">결정은 나중에.</span>
         </h2>
 
       </div>
@@ -787,6 +787,90 @@
     <h3 class="wait-dialog-list-title" id="waitListTitle">기다리고 있는 귀여운 것들</h3>
     <div class="wait-dialog-items" id="waitItems"></div>
   </dialog>
+
+
+  <!-- HOW TO USE: accessible three-language help popup -->
+  <dialog id="bowHelpDialog" class="bow-help-dialog" aria-labelledby="bowHelpTitle">
+    <div class="bow-help-top">
+      <span class="bow-help-kicker">BUY OR WAIT?</span>
+      <button type="button" class="bow-help-close" id="bowHelpClose" aria-label="Close">×</button>
+    </div>
+    <h2 id="bowHelpTitle"></h2>
+    <p class="bow-help-intro" id="bowHelpIntro"></p>
+    <div class="bow-help-steps" id="bowHelpSteps"></div>
+    <p class="bow-help-note" id="bowHelpNote"></p>
+    <button type="button" class="bow-help-done" id="bowHelpDone"></button>
+  </dialog>
+  <script>
+  (() => {
+    const dialog = document.getElementById('bowHelpDialog');
+    const translations = {
+      ko: {
+        title: '이용 방법', intro: '귀여운 물건을 발견했다면, 바로 사기 전에 잠깐 기록해 봐요.',
+        steps: [
+          ['마음에 담기', '사진을 올리고, 카테고리와 가격, 마음에 든 이유를 기록해요.'],
+          ['비슷한 물건 확인하기', '같은 카테고리의 물건이 있다면 알림을 확인하고 다시 생각해요.'],
+          ['잠깐 기다리기', '위시리스트에 담아 두고, 시간이 지난 뒤에도 필요한지 살펴봐요.'],
+          ['구매한 소품들', '구매했다면 구매한 물건으로 옮기고 만족도를 남겨요.'],
+          ['달력과 작은 선물', '사지 않기로 한 날을 기록하고, 조건을 채우면 비밀 선물을 열어요. 열린 선물은 컬렉션에서 다시 볼 수 있어요.']
+        ], note: '천천히 골라도 괜찮아요. 결정은 나중에!', done: '알겠어요'
+      },
+      zh: {
+        title: '使用方法', intro: '看到喜欢的小东西，先记录下来，不用马上购买。',
+        steps: [
+          ['记录心动', '上传照片，选择类别，填写价格和喜欢它的原因。'],
+          ['查看相似提醒', '如果已经收藏过同类物品，先看看提醒，再决定要不要保存。'],
+          ['再等等', '把喜欢的东西放进愿望清单，过一段时间再考虑是否需要。'],
+          ['已购买', '买下之后，可以把它移到已购买，并记录购买满意度。'],
+          ['日历与小礼物', '记录没有购买的日子，达到解锁条件后打开秘密礼物。解锁的礼物会留在收藏页面，随时可以重新查看。']
+        ], note: '喜欢可以是现在，决定可以晚一点。', done: '我知道啦'
+      },
+      en: {
+        title: 'How it works', intro: 'Found something cute? Save it first. You don’t have to buy it right away.',
+        steps: [
+          ['Save what you love', 'Upload a photo, choose a category, and add its price and what you like about it.'],
+          ['Check for similar items', 'If you have items in the same category, review the reminder before saving.'],
+          ['Wait a little', 'Keep it on your wishlist and decide later whether you really need it.'],
+          ['Bought items', 'If you buy it, move it to Bought and record how satisfied you are.'],
+          ['Calendar & little gifts', 'Track days you choose not to buy. Unlock a secret gift when you meet the requirements, then revisit it in your collection.']
+        ], note: 'Love it now. Decide later.', done: 'Got it!'
+      }
+    };
+    function currentLanguage() {
+      const selected = document.querySelector('.language-switch button[aria-pressed="true"]');
+      const code = selected?.dataset.lang || document.documentElement.lang || 'ko';
+      return code.toLowerCase().startsWith('zh') ? 'zh' : code.toLowerCase().startsWith('en') ? 'en' : 'ko';
+    }
+    function openHelp(event) {
+      event.preventDefault();
+      const t = translations[currentLanguage()];
+      document.getElementById('bowHelpTitle').textContent = t.title;
+      document.getElementById('bowHelpIntro').textContent = t.intro;
+      const container = document.getElementById('bowHelpSteps');
+      container.replaceChildren();
+      t.steps.forEach(([heading, description], index) => {
+        const section = document.createElement('section');
+        section.className = 'bow-help-step';
+        const number = document.createElement('span');
+        number.className = 'bow-help-number';
+        number.textContent = String(index + 1).padStart(2, '0');
+        const content = document.createElement('div');
+        const h = document.createElement('h3'); h.textContent = heading;
+        const p = document.createElement('p'); p.textContent = description;
+        content.append(h, p); section.append(number, content); container.append(section);
+      });
+      document.getElementById('bowHelpNote').textContent = t.note;
+      document.getElementById('bowHelpDone').textContent = t.done;
+      const mobileNav = document.getElementById('mobileNav');
+      if (mobileNav) mobileNav.hidden = true;
+      if (!dialog.open) dialog.showModal();
+    }
+    document.querySelectorAll('[data-open-help]').forEach(link => link.addEventListener('click', openHelp));
+    document.getElementById('bowHelpClose').addEventListener('click', () => dialog.close());
+    document.getElementById('bowHelpDone').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  })();
+  </script>
 
   <!-- TOAST -->
   <div

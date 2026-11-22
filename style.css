@@ -1760,3 +1760,140 @@ html[lang="zh-CN"] .hero h1 * {
 .bow-gift-preview[hidden]{display:none!important}
 .bow-gift-tile.is-unlocked{min-height:175px}
 #bowGiftViewerImage{background:transparent}
+
+/* Two-line campaign title: smaller premise, larger main message */
+html body .steps-section .section-head h2 .steps-title-small {
+  display:block !important;
+  font-size:clamp(24px,3.4vw,43px) !important;
+  line-height:1.35 !important;
+  color:#4a3227 !important;
+  font-weight:700 !important;
+}
+html body .steps-section .section-head h2 .steps-title-large {
+  display:block !important;
+  font-size:clamp(44px,6.5vw,88px) !important;
+  line-height:1.18 !important;
+  color:#dc93a9 !important;
+  font-weight:800 !important;
+  margin-top:8px;
+}
+
+/* 2026-11-23: two-level campaign headline and readable supporting text */
+html body .steps-section .section-head h2{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;line-height:1.1;max-width:100%;overflow-wrap:anywhere}
+html body .steps-section .section-head h2 .steps-title-small{font-size:clamp(25px,3vw,39px)!important;line-height:1.35!important;margin:0!important}
+html body .steps-section .section-head h2 .steps-title-large{font-size:clamp(48px,6.4vw,90px)!important;line-height:1.14!important;margin:0!important;letter-spacing:-.035em}
+html body .art-card{width:clamp(155px,16vw,205px);min-height:190px;height:auto;padding:16px 8px}
+html body .art-card strong{font-size:clamp(19px,2vw,25px)!important}
+html body .art-card small{font-size:clamp(30px,3.3vw,44px)!important;line-height:1.05!important;letter-spacing:-.035em}
+/* Small labels, numerals, help text, and buttons: larger tap-friendly type */
+html body .eyebrow,html body .tiny-note,html body .hero-sub{font-size:18px!important;line-height:1.6!important}
+html body .step-number,html body .section-kicker,html body .bow-calendar-weekdays,html body .bow-calendar-day small{font-size:17px!important}
+html body .bow-calendar-day{font-size:19px!important}
+html body .bow-summary-tile,html body .bow-summary-tile small,html body .bow-gift-tile,html body .bow-gift-tile small,html body .bow-gift-collection-head,html body .bow-gift-collection-head small{font-size:17px!important;line-height:1.5!important}
+html body .bow-summary-tile strong{font-size:25px!important}
+html body .bow-gift-tile strong{font-size:19px!important}
+html body .bow-calendar-wrap button,html body .bow-gift-collection-grid button{min-height:44px}
+html body .step-card .text-link,html body .step-action-button,html body .hero-buttons .btn,html body .btn,html body .mini-button{font-size:19px!important;line-height:1.35!important}
+html body .upload-dialog label,html body .upload-dialog small,html body .upload-dialog input,html body .upload-dialog textarea,html body .upload-dialog select{font-size:19px!important}
+@media(max-width:720px){
+ html body .steps-section .section-head h2 .steps-title-small{font-size:clamp(23px,5.4vw,34px)!important}
+ html body .steps-section .section-head h2 .steps-title-large{font-size:clamp(39px,9.4vw,68px)!important}
+ html body .art-card{width:155px;min-height:170px;padding:12px 6px}
+ html body .art-card strong{font-size:19px!important}
+ html body .art-card small{font-size:31px!important}
+ html body .bow-calendar-day{font-size:17px!important}
+ html body .bow-calendar-day small{font-size:13px!important}
+ html body .bow-gift-tile strong{font-size:17px!important}
+ html body .bow-summary-tile,html body .bow-summary-tile small,html body .bow-gift-tile,html body .bow-gift-tile small{font-size:15px!important}
+ html body .step-card .text-link,html body .step-action-button,html body .hero-buttons .btn{font-size:18px!important}
+}
+@media(max-width:380px){html body .steps-section .section-head h2 .steps-title-large{font-size:clamp(34px,9vw,42px)!important}}
+
+
+/* 2026-11-23: bigger calendar and reward typography; uniform coffee title */
+html body .hero h1,
+html body .hero h1 span,
+html body .hero h1 em,
+html body .hero h1 * {
+  color: #4a3227 !important;
+  -webkit-text-fill-color: #4a3227 !important;
+}
+html body .bow-summary-tile small {
+  font-size: clamp(21px, 2.1vw, 27px) !important;
+  line-height: 1.45 !important;
+  font-weight: 700 !important;
+}
+html body .bow-summary-tile strong {
+  font-size: clamp(32px, 3.1vw, 41px) !important;
+  line-height: 1.3 !important;
+}
+html body .bow-rewards-head strong,
+html body .bow-rewards-head span {
+  font-size: clamp(21px, 2vw, 27px) !important;
+  line-height: 1.4 !important;
+}
+html body .bow-reward-card strong {
+  font-size: clamp(28px, 2.8vw, 37px) !important;
+  line-height: 1.3 !important;
+}
+html body .bow-reward-card small {
+  font-size: clamp(21px, 2vw, 27px) !important;
+  line-height: 1.45 !important;
+}
+html body .bow-calendar-help,
+html body .bow-day-detail {
+  font-size: clamp(19px, 1.8vw, 24px) !important;
+  line-height: 1.7 !important;
+}
+html body .bow-reward-card { gap: 12px; padding: 27px 14px; }
+@media (max-width: 600px) {
+  html body .bow-summary-tile small { font-size: 19px !important; }
+  html body .bow-summary-tile strong { font-size: 30px !important; }
+  html body .bow-rewards-head strong,
+  html body .bow-rewards-head span { font-size: 18px !important; }
+  html body .bow-reward-card strong { font-size: 25px !important; }
+  html body .bow-reward-card small { font-size: 18px !important; }
+  html body .bow-calendar-help,
+  html body .bow-day-detail { font-size: 17px !important; }
+  html body .bow-reward-card { padding: 22px 9px; }
+}
+
+
+/* Clear spacing for the big WAIT? headline */
+html body .hero h1,
+html body .hero h1 span {
+  letter-spacing: .015em !important;
+  font-kerning: normal;
+}
+html body .hero h1 span { display: inline-block; padding-right: .09em; }
+
+/* Three-language HOW IT WORKS modal */
+.bow-help-dialog {
+  position: fixed;
+  width: min(560px, calc(100vw - 28px));
+  max-height: min(86dvh, 780px);
+  margin: auto;
+  padding: 27px clamp(20px, 4vw, 36px) 28px;
+  border: 2px solid #dfb9bd;
+  border-radius: 28px;
+  background: #fffaf1;
+  color: #4a3227;
+  box-shadow: 0 22px 70px #4a32273d;
+  overflow-y: auto;
+}
+.bow-help-dialog::backdrop { background: #38251eb3; backdrop-filter: blur(4px); }
+.bow-help-top { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+.bow-help-kicker { color: #c7849d; font-weight: 800; font-size: 15px; letter-spacing: .07em; }
+.bow-help-close { border: 1px solid #d8b7ac; background: #fff; border-radius: 50%; width: 42px; height: 42px; font-size: 29px; line-height: 1; color: #4a3227; cursor: pointer; }
+.bow-help-dialog h2 { margin: 6px 0 10px; font-size: clamp(29px, 5vw, 38px); line-height: 1.2; }
+.bow-help-intro { font-size: 17px; line-height: 1.65; margin: 0 0 20px; }
+.bow-help-steps { display: grid; gap: 11px; }
+.bow-help-step { display: grid; grid-template-columns: 42px 1fr; gap: 13px; padding: 15px; background: #fff; border: 1px solid #ecd7cd; border-radius: 16px; }
+.bow-help-step:nth-child(even) { background: #fff4f4; }
+.bow-help-number { color: #c8849c; font-size: 19px; font-weight: 800; }
+.bow-help-step h3 { margin: 0 0 5px; font-size: 19px; line-height: 1.3; color: #4a3227; }
+.bow-help-step p { margin: 0; font-size: 15px; line-height: 1.6; color: #71594e; }
+.bow-help-note { font-size: 16px; font-weight: 700; text-align: center; margin: 19px 0; }
+.bow-help-done { display: block; margin: 0 auto; border: 1.5px solid #4a3227; border-radius: 999px; padding: 12px 30px; font-size: 17px; font-weight: 800; color: #4a3227; background: #f8d5e1; cursor: pointer; }
+.bow-help-done:hover { background: #f3bfd1; }
+@media(max-width:480px) { .bow-help-dialog { padding: 20px 16px; border-radius: 20px; } .bow-help-step { padding: 12px; } }
